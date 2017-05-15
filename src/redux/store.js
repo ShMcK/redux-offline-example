@@ -1,18 +1,17 @@
-import { applyMiddleware } from 'redux';
-import { createOfflineStore } from 'redux-offline';
+import { applyMiddleware, createStore, compose } from 'redux';
+import { offline } from 'redux-offline';
+import offlineConfig from 'redux-offline/lib/defaults';
 import createLogger from 'redux-logger';
 
 import reducer from './reducer';
 
-const options = {
-  rehydrate: true
-};
-
-const store = createOfflineStore(
+const store = createStore(
   reducer,
   undefined,
-  applyMiddleware(createLogger({ collapsed: true })),
-  options
+  compose(
+    applyMiddleware(createLogger({ collapsed: true })),
+    offline(offlineConfig)
+  ),
 );
 
 export default store;
